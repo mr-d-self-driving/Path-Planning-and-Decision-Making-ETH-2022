@@ -49,5 +49,5 @@ constraint to:
 
 Planning and control stack for a car with simulation interface: https://github.com/idsc-frazzoli/dg-commons. 
 - Planning with RRT
-- Control with pure-pursuit to get the target steering angle and PID to track steering angle and speed command
+- Control with pure-pursuit to get the steering angle reference and PID to track steering and speed reference.
 - To do: debug multiplayer 
