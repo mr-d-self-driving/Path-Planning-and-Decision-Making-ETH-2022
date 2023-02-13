@@ -1,21 +1,21 @@
 # Path Planning and Decision Making ETH 2022
 
-1. Graph search
+**1. Graph search**
 - Breadth first search
 - Depth first search
 
-2. Informed graph search
+**2. Informed graph search**
 - Uniform cost search
 - Astar
 
-3. Dynamic Programming
+**3. Dynamic Programming**
 - Value iteration
 - Policy iteration
 
-4. Steering
+**4. Steering**
 - Dubin's Paths
 
-5. Collision Checking
+**5. Collision Checking**
 - Point-Circle Collision Checking Procedure
 - Point-Triangle Collision Checking Procedure
 - Point-Polygon Collision Checking Procedure
@@ -29,7 +29,7 @@
 - Collision Checking in Robot Frame
 - Collision Checking via Safety Certificates
 
-6. Optimization (Pulp)
+**6. Optimization (Pulp)**
 
 Mixed integer linear program optimizing a voyage plan of a pirate ship passing several islands:
 - Minimum nights
@@ -45,7 +45,7 @@ constraint to:
 - Maximum duration
 - Maximum L1 norm
 
-7. Driving Games
+**7. Driving Games**
 
 Planning and control stack for a car with simulation interface: https://github.com/idsc-frazzoli/dg-commons. 
 - Planning with RRT
