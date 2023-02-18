@@ -3,6 +3,7 @@
 **1. Graph search**
 - Breadth first search
 - Depth first search
+- Iterative Deepening
 
 **2. Informed graph search**
 - Uniform cost search
