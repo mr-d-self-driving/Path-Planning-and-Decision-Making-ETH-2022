@@ -10,7 +10,7 @@
 
 **3. Dynamic Programming**
 - Value iteration
-- To Do: Debug Value iteration
+- To Do: Debug value iteration
 - Policy iteration
 
 **4. Steering**
