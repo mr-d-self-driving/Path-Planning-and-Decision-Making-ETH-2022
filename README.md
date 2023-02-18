@@ -14,6 +14,7 @@
 
 **4. Steering**
 - Dubin's Paths
+- To Do: Add LRL and RLR curves, Reeds-Shepp curves
 
 **5. Collision Checking**
 - Point-Circle Collision Checking Procedure
@@ -50,4 +51,4 @@ constraint to:
 Planning and control stack for a car with simulation interface: https://github.com/idsc-frazzoli/dg-commons. 
 - Planning with RRT
 - Control with pure-pursuit to get the steering angle reference and PID to track steering and speed reference
-- To do: debug multiplayer 
+- To do: debug multiplayer
