@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import IntEnum, unique
 from typing import List
-
 import numpy as np
 from dg_commons import SE2Transform
 
@@ -34,9 +33,7 @@ class Gear(IntEnum):
 
 class Segment(ABC):
     """ Abstract class defining the basic properties of a path segment  """
-
-    def __init__(self, segment_type: DubinsSegmentType, start_config: SE2Transform, end_config: SE2Transform,
-                 gear: Gear):
+    def __init__(self, segment_type: DubinsSegmentType, start_config: SE2Transform, end_config: SE2Transform, gear: Gear):
         self.type = segment_type
         self.start_config = start_config
         self.end_config = end_config
@@ -49,7 +46,6 @@ class Segment(ABC):
 
 
 Path = List[Segment]
-"""Here we consider a path as a list of segments"""
 
 
 class Line(Segment):
@@ -77,7 +73,6 @@ class Line(Segment):
 
 
      """
-
     def __init__(self, start_config: SE2Transform, end_config: SE2Transform, gear: Gear = Gear.FORWARD):
         self.length = np.linalg.norm(end_config.p - start_config.p)
         if np.abs(self.length) >= 1e-8:
@@ -86,7 +81,7 @@ class Line(Segment):
             self.direction = SE2Transform.identity().p
         super().__init__(DubinsSegmentType.STRAIGHT, start_config, end_config, gear)
 
-    def __str__(self) -> str:
+    def __str__(self)-> str:
         return f"S{'-' if self.gear is Gear.REVERSE else ''}({self.length :.1f})"
 
     def __repr__(self) -> str:
@@ -112,7 +107,7 @@ class Curve(Segment):
         radius:         float
             Turning radius
         
-        arc_angle:      float [0, 2*pi) (Default = 0)
+        arc_angle:      float [0, 2*pi) (default = 0)
             Angle of the curve segment. Note that 2*pi == 0, since a full 360deg turn is never in the optimal path
 
         length:         float
@@ -122,42 +117,32 @@ class Curve(Segment):
             A unit vector pointing from start to end configuration
             If start == end, then direction = SE2Transform.identity().p
 
-        gear:            Gear      (Default = Gear.FORWARD)
+        gear:            Gear      (Default = Gear.Forward)
             Whether the car completes the curve from start to end in forward gear or reverse gear
 
      """
-
     def __init__(self, start_config: SE2Transform, end_config: SE2Transform, center: SE2Transform,
                  radius: float, curve_type: DubinsSegmentType, arc_angle: float = 0, gear: Gear = Gear.FORWARD):
+
         assert center.theta == 0
         assert curve_type is not DubinsSegmentType.STRAIGHT
         assert radius > 0
 
+        self.length = radius * arc_angle
         self.radius = radius
         self.center = center
-        self._arc_angle = mod_2_pi(arc_angle)
-        self.length = radius * self._arc_angle
+        self.arc_angle = mod_2_pi(arc_angle)
         super().__init__(curve_type, start_config, end_config, gear)
 
-    @property
-    def arc_angle(self):
-        return self._arc_angle
-
-    @arc_angle.setter
-    def arc_angle(self, value):
-        self._arc_angle = mod_2_pi(value)
-        self.length = self._arc_angle*self.radius
-
-    def __str__(self) -> str:
-        return f"L{'-' if self.gear is Gear.REVERSE else ''}({np.rad2deg(self._arc_angle):.1f})" if self.type is DubinsSegmentType.LEFT \
-            else f"R{'-' if self.gear is Gear.REVERSE else ''}({np.rad2deg(self._arc_angle):.1f})"
+    def __str__(self)-> str:
+        return f"L{'-' if self.gear is Gear.REVERSE else ''}({np.rad2deg(self.arc_angle):.1f})" if self.type is DubinsSegmentType.LEFT\
+            else f"R{'-' if self.gear is Gear.REVERSE else ''}({np.rad2deg(self.arc_angle):.1f})"
 
     def __repr__(self) -> str:
         return str(self)
-
+    
     @staticmethod
-    def create_circle(center: SE2Transform, config_on_circle: SE2Transform, radius: float,
-                      curve_type: DubinsSegmentType) -> 'Curve':
+    def create_circle(center: SE2Transform, config_on_circle: SE2Transform, radius: float, curve_type: DubinsSegmentType)-> 'Curve':
         """Helper method for creating a basic Curve object specifying a turning circle
             :param center:              SE2Transform,  The center of the turning circle (x,y,theta==0)
             :param config_on_circle:    SE2Transform.  Valid configuration on the turning circle
@@ -165,8 +150,8 @@ class Curve(Segment):
             :param curve_type           DubinsSegmentType.LEFT or  DubinsSegmentType.RIGHT  If the car drives a left or right curve
 
             returns a Curve object with the specified parameters and sets start_config = end_config = point_on_circle, arc_angle = 0"""
-        return Curve(center=center, start_config=config_on_circle, end_config=config_on_circle, radius=radius,
-                     curve_type=curve_type)
+        return Curve(center=center,start_config=config_on_circle, end_config=config_on_circle, radius=radius, curve_type=curve_type)
+
 
 
 @dataclass
